@@ -30,10 +30,12 @@ Awesome Options Framework is a lightweight yet powerful WordPress options framew
 To use the framework, initialize it with an array of fields in your plugin:
 
 ```php
+// Example Usage
 new Awesome_Options_Framework([
     'option_name' => 'my_plugin_settings',
     'page_title'  => __('My Plugin Settings', 'aof'),
     'menu_slug'   => 'my-plugin-settings',
+    'menu_icon'   => 'dashicons-admin-generic',
     'fields'      => [
         [
             'id' => 'custom_text',
@@ -47,8 +49,14 @@ new Awesome_Options_Framework([
             'label' => __('Enable Feature', 'aof'),
             'default' => 0,
         ],
+        [
+            'id' => 'background_color',
+            'type' => 'color',
+            'label' => __('Background Color', 'aof'),
+            'default' => '#ffffff',
+        ],
     ]
-]);
+] );
 ```
 
 \== Frequently Asked Questions ==
