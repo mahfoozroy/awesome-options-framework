@@ -9,13 +9,13 @@
     max-width: 700px;
 }
 
-h1 {
+.aof-wrap h1 {
     font-size: 24px;
     font-weight: bold;
     color: #0073aa;
 }
 
-input[type="text"], input[type="number"], input[type="date"], select {
+.aof-wrap input[type="text"], .aof-wrap input[type="number"], .aof-wrap input[type="date"], .aof-wrap select {
     width: 100%;
     padding: 8px;
     margin-top: 5px;
@@ -23,23 +23,23 @@ input[type="text"], input[type="number"], input[type="date"], select {
     border-radius: 5px;
 }
 
-input[type="color"] {
+.aof-wrap input[type="color"] {
     width: 100px;
     height: 40px;
     border: none;
     cursor: pointer;
 }
 
-input[type="submit"] {
+.aof-wrap input[type="submit"] {
     background: #0073aa;
     color: #fff;
     border: none;
-    padding: 10px 20px;
+    padding: 5px 15px;
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
 }
 
-input[type="submit"]:hover {
+.aof-wrap input[type="submit"]:hover {
     background: #005177;
 }
