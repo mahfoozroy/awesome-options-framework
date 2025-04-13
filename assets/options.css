@@ -1,45 +1,124 @@
-.aof-wrap {
+/* General wrapper */
+#aof-app {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
     background: #fff;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    margin-top: 20px;
-}
-.aof-inner-wrap {
-    max-width: 700px;
-}
-
-.aof-wrap h1 {
-    font-size: 24px;
-    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  #aof-app h1 {
+    margin-bottom: 40px;
+  }
+  .aof-inner-wrap {
+    margin: 20px;
+   }
+  /* Layout control */
+  #aof-app.vertical {
+    display: flex;
+    gap: 20px;
+  }
+  
+  /* Tabs container */
+  #aof-app .aof-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e2e8f0;
+  }
+  #aof-app.vertical .aof-tabs {
+    flex-direction: column;
+    border: none;
+    border-right: 2px solid #e2e8f0;
+    min-width: 250px;
+    margin-bottom: 0;
+  }
+  
+  /* Single tab */
+  #aof-app .aof-tab {
+    padding: 10px 16px;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 6px 6px 0 0;
+    color: #333;
+  }
+  
+  #aof-app.vertical .aof-tab {
+    border-radius: 4px;
+    border: none;
+    text-align: left;
+    border-left: 4px solid transparent;
+    padding: 12px 14px;
+    font-weight: 500;
+    background: transparent;
+  }
+  
+  #aof-app .aof-tab:hover {
+    background: #f1f3f5;
+  }
+  
+  #aof-app .aof-tab.active {
+    background: #ffffff;
+    font-weight: 600;
+    border-bottom: 2px solid #ffffff;
+  }
+  
+  #aof-app.vertical .aof-tab.active {
+    background: #ffffff;
+    border-left: 4px solid #0073aa;
     color: #0073aa;
+  }
+  
+  /* Tab content area */
+  #aof-app .aof-tab-content-area {
+    width: 100%;
+    max-width: 600px;
+  }
+  #aof-app .aof-form-inner-vertical {
+    display: flex;
+    margin-top: 40px;
+    flex-direction: row;
+    gap: 40px;
 }
-
-.aof-wrap input[type="text"], .aof-wrap input[type="number"], .aof-wrap input[type="date"], .aof-wrap select {
+  #aof-app.vertical .aof-tab-content-area {
+    flex: 1;
+  }
+  
+  /* Tab content visibility */
+  #aof-app .aof-tab-content {
+    display: none;
+    padding-top: 5px;
+  }
+  #aof-app .aof-tab-content.active {
+    display: block;
+  }
+  
+  /* Field & Form Styling */
+  .aof-wrap input[type="text"],
+  .aof-wrap input[type="number"],
+  .aof-wrap input[type="email"],
+  .aof-wrap input[type="url"],
+  .aof-wrap select,
+  .aof-wrap textarea {
     width: 100%;
     padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-.aof-wrap input[type="color"] {
-    width: 100px;
-    height: 40px;
-    border: none;
-    cursor: pointer;
-}
-
-.aof-wrap input[type="submit"] {
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .aof-wrap input[type="submit"] {
+    margin-top: 20px;
     background: #0073aa;
     color: #fff;
     border: none;
-    padding: 5px 15px;
-    border-radius: 5px;
+    padding: 10px 20px;
+    border-radius: 4px;
     cursor: pointer;
-    font-weight: bold;
-}
-
-.aof-wrap input[type="submit"]:hover {
-    background: #005177;
-}
+  }
+  
+  .aof-wrap input[type="submit"]:hover {
+    background: #005d8f;
+  }
+  
