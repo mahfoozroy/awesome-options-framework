@@ -59,6 +59,72 @@ new Awesome_Options_Framework([
 ] );
 ```
 
+```php
+// Example Usage with sections/tabs
+new Awesome_Options_Framework( [
+    'option_name' => 'my_plugin_settings',
+    'page_title'  => __('My Plugin Settings', 'aof'),
+    'menu_slug'   => 'my-plugin-settings',
+    'menu_icon'   => 'dashicons-admin-tools',
+    'tab_layout'  => 'horizontal', // or 'vertical'
+    'sections'    => [
+        'general' => [
+            'label' => __('General Settings', 'aof'),
+            'fields' => [
+                [
+                    'id'      => 'site_title',
+                    'type'    => 'text',
+                    'label'   => __('Site Title', 'aof'),
+                    'default' => '',
+                ],
+                [
+                    'id'      => 'background_color',
+                    'type'    => 'color',
+                    'label'   => __('Background Color', 'aof'),
+                    'default' => '#ffffff',
+                ],
+                [
+                    'id'      => 'enable_feature',
+                    'type'    => 'checkbox',
+                    'label'   => __('Enable Feature', 'aof'),
+                    'default' => 0,
+                ],
+            ],
+        ],
+        'advanced' => [
+            'label' => __('Advanced Settings', 'aof'),
+            'fields' => [
+                [
+                    'id'      => 'max_items',
+                    'type'    => 'number',
+                    'label'   => __('Maximum Items', 'aof'),
+                    'default' => 10,
+                    'min'     => 1,
+                    'max'     => 100,
+                ],
+                [
+                    'id'      => 'email',
+                    'type'    => 'email',
+                    'label'   => __('Admin Email', 'aof'),
+                    'default' => '',
+                ],
+                [
+                    'id'      => 'mode',
+                    'type'    => 'select',
+                    'label'   => __('Mode', 'aof'),
+                    'default' => 'simple',
+                    'options' => [
+                        'simple'  => __('Simple', 'aof'),
+                        'advanced'=> __('Advanced', 'aof'),
+                    ],
+                ],
+            ],
+        ],
+    ]
+] );
+
+```
+
 \== Frequently Asked Questions ==
 
 \= Can I add more field types? = Yes! The framework is built to be easily extendable. You can add more field types by modifying the `render_field()` function.
