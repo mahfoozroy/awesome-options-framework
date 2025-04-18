@@ -124,4 +124,7 @@
   .aof-wrap input[type="submit"]:hover {
     background: #005d8f;
   }
+  .aof-wrap .form-table td {
+    vertical-align: top;
+  }
   
