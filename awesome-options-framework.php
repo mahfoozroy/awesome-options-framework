@@ -124,9 +124,10 @@ class Awesome_Options_Framework {
         return $output;
     }
 
-    public function render_field($field) {
-        $options = get_option($this->option_name);
-        $value = isset($options[$field['id']]) ? esc_attr($options[$field['id']]) : esc_attr($field['default']);
+    public function render_field( $field ) {
+        $options = get_option( $this->option_name );
+        $default = isset( $field['default'] ) ? esc_attr( $field['default'] ) : '';
+        $value = isset( $options[ $field['id'] ] ) ? esc_attr( $options[ $field['id'] ] ) : $default;
 
         switch ($field['type']) {
             case 'text':
