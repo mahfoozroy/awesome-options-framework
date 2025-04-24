@@ -31,20 +31,20 @@
     flex-direction: column;
     border: none;
     border-right: 2px solid #e2e8f0;
-    min-width: 250px;
+    min-width: 200px;
     margin-bottom: 0;
   }
   
   /* Single tab */
   #aof-app .aof-tab {
-    padding: 14px 18px;
+    padding: 10px 16px;
     background: #ebebeb;
     border: 1px solid #ddd;
     cursor: pointer;
     transition: all 0.2s ease;
     border-radius: 6px 6px 0 0;
     color: #333;
-    font-size: 18px;
+    font-size: 16px;
   }
   
   #aof-app.vertical .aof-tab {
@@ -105,14 +105,13 @@
   .aof-wrap select,
   .aof-wrap textarea {
     width: 100%;
-    padding: 8px;
+    padding: 4px;
     margin-top: 4px;
     border: 1px solid #ccc;
     border-radius: 4px;
   }
   
   .aof-wrap input[type="submit"] {
-    margin-top: 20px;
     background: #0073aa;
     color: #fff;
     border: none;
@@ -126,5 +125,14 @@
   }
   .aof-wrap .form-table td {
     vertical-align: top;
+    padding-block: 10px;
   }
   
+  #aof-app.vertical form {
+    border-top: 2px solid #e2e8f0;
+  }
+
+  #aof-app.vertical form .aof-form-inner-vertical {
+    margin-top: 0;
+    padding-top: 40px;
+  }

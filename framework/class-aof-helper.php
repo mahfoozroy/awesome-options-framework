@@ -11,9 +11,7 @@ if ( ! class_exists( 'AOF_Helper' ) ) {
 	class AOF_Helper {
 
 		/**
-		 * Ensure a CSS unit value is properly formatted.
-		 *
-		 * Appends a default unit (e.g. "px") if the input is numeric or missing a unit.
+		 * Ensure a CSS unit value is properly formatted for fields like padding, margins etc.
 		 *
 		 * @param string|int|float $value        The value to sanitize (e.g. "20", "20px", "1.5em").
 		 * @param string           $default_unit The default unit to append (e.g. "px", "em").
@@ -88,5 +86,6 @@ if ( ! class_exists( 'AOF_Helper' ) ) {
 
 			return array_merge( $defaults, (array) $saved );
 		}
+		
 	}
 }

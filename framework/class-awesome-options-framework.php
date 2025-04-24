@@ -234,8 +234,8 @@ class Awesome_Options_Framework {
 		} else {
 			do_settings_sections( $this->option_name );
 		}
-
+		echo '</div>';
 		submit_button();
-		echo '</div></form></div></div>';
+		echo '</form></div></div>';
 	}
 }
