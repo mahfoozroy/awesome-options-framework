@@ -132,6 +132,21 @@ class Awesome_Options_Framework {
 				case 'color':
 					$output[ $id ] = sanitize_hex_color( $value );
 					break;
+				case 'spacing':
+					$output[ $id ] = [];
+				
+					if ( isset( $input[ $id ] ) && is_array( $input[ $id ] ) ) {
+						foreach ( $field['options'] as $side ) {
+							$value = $input[ $id ][ $side ] ?? '';
+							$output[ $id ][ $side ] = sanitize_text_field( $value );
+						}
+						// Also sanitize unit
+						$allowed_units = [ 'px', '%', 'em', 'rem', 'vh', 'vw', 'pt' ];
+						$unit = $input[ $id ]['unit'] ?? 'px';
+						$output[ $id ]['unit'] = in_array( $unit, $allowed_units, true ) ? sanitize_text_field( $unit ) : 'px';
+					}
+					break;
+					
 				default:
 					$output[ $id ] = sanitize_text_field( $value );
 					break;
@@ -185,6 +200,36 @@ class Awesome_Options_Framework {
 					echo "<label><input type='radio' name='{$this->option_name}[{$field['id']}]' value='" . esc_attr( $key ) . "' " . checked( $value, $key, false ) . "> " . esc_html__( $label, 'aof' ) . "</label><br>";
 				}
 				break;
+			case 'spacing':
+				$spacing_fields = isset( $field['options'] ) ? (array) $field['options'] : [ 'top', 'right', 'bottom', 'left' ];
+				$saved_spacing  = isset( $options[ $field['id'] ] ) ? (array) $options[ $field['id'] ] : (array) $field['default'];
+				$units = [ 'px', '%', 'em', 'rem', 'vh', 'vw', 'pt' ]; // allowed units
+			
+				echo "<div class='aof-spacing-wrapper' style='display:flex; gap:10px; align-items: flex-end;'>";
+			
+				foreach ( $spacing_fields as $side ) {
+					$side_value = isset( $saved_spacing[ $side ] ) ? esc_attr( $saved_spacing[ $side ] ) : '';
+					echo "<div style='flex:1;'>
+							<label style='display:block; font-weight:bold; font-size:12px; margin-bottom:4px;'>". ucfirst( $side ) ."</label>
+							<input type='text' name='{$this->option_name}[{$field['id']}][{$side}]' value='{$side_value}' class='small-text' />
+							</div>";
+				}
+			
+				// Unit dropdown
+				$current_unit = isset( $saved_spacing['unit'] ) ? esc_attr( $saved_spacing['unit'] ) : 'px';
+			
+				echo "<div style='flex:1;'>
+						<label style='display:block; font-weight:bold; font-size:12px; margin-bottom:4px;'>" . __( 'Unit', 'aof' ) . "</label>
+						<select name='{$this->option_name}[{$field['id']}][unit]'>";
+				foreach ( $units as $unit ) {
+					echo "<option value='" . esc_attr( $unit ) . "' " . selected( $current_unit, $unit, false ) . ">" . esc_html( $unit ) . "</option>";
+				}
+				echo "</select>
+						</div>";
+			
+				echo "</div>";
+				break;
+				
 		}
 	}
 
