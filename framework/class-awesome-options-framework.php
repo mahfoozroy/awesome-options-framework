@@ -133,6 +133,9 @@ class Awesome_Options_Framework {
 					$output[ $id ] = sanitize_hex_color( $value );
 					break;
 				case 'spacing':
+				case 'margin':
+				case 'padding':
+				case 'border':
 					$output[ $id ] = [];
 				
 					if ( isset( $input[ $id ] ) && is_array( $input[ $id ] ) ) {
@@ -201,6 +204,9 @@ class Awesome_Options_Framework {
 				}
 				break;
 			case 'spacing':
+			case 'margin':
+			case 'padding':
+			case 'border':
 				$spacing_fields = isset( $field['options'] ) ? (array) $field['options'] : [ 'top', 'right', 'bottom', 'left' ];
 				$saved_spacing  = isset( $options[ $field['id'] ] ) ? (array) $options[ $field['id'] ] : (array) $field['default'];
 				$units = [ 'px', '%', 'em', 'rem', 'vh', 'vw', 'pt' ]; // allowed units
