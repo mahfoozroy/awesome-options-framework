@@ -75,7 +75,7 @@ class Awesome_Options_Framework {
 				foreach ( $section['fields'] as $field ) {
 					add_settings_field(
 						esc_attr( $field['id'] ),
-						esc_html__( $field['label'], 'aof' ),
+						'',
 						[ $this, 'render_field' ],
 						$this->option_name . '_' . $key,
 						$key,
@@ -167,77 +167,90 @@ class Awesome_Options_Framework {
 	public function render_field( $field ) {
 		$options = get_option( $this->option_name );
 		$value   = $options[ $field['id'] ] ?? $field['default'];
-
-		switch ( $field['type'] ) {
+		$type    = $field['type'] ?? 'text';
+		$label   = $field['label'] ?? '';
+		$desc    = $field['description'] ?? '';
+	
+		echo "<div class='aof-field-wrap aof-type-{$type}'>";
+	
+		// Label
+		echo '<div class="aof-field-label">';
+		if ( $label ) {
+			echo "<label for='{$field['id']}' class='aof-label'>" . esc_html__( $label, 'aof' ) . "</label>";
+		}
+		// Description
+		if ( $desc ) {
+			echo '<p class="aof-description">' . esc_html__( $desc, 'aof' ) . '</p>';
+		}
+		echo '</div>';
+		echo '<div class="aof-field-inner">';
+		// Input switch
+		switch ( $type ) {
 			case 'text':
 			case 'email':
-				echo "<input type='{$field['type']}' name='{$this->option_name}[{$field['id']}]' value='" . esc_attr( $value ) . "' class='regular-text'>";
+				echo "<input type='{$type}' id='{$field['id']}' name='{$this->option_name}[{$field['id']}]' value='" . esc_attr( $value ) . "' class='regular-text'>";
 				break;
-
+	
 			case 'checkbox':
-				echo "<input type='checkbox' name='{$this->option_name}[{$field['id']}]' value='1' " . checked( $value, 1, false ) . ">";
+				echo "<input type='checkbox' id='{$field['id']}' name='{$this->option_name}[{$field['id']}]' value='1' " . checked( $value, 1, false ) . ">";
 				break;
-
+	
 			case 'number':
-				echo "<input type='number' name='{$this->option_name}[{$field['id']}]' value='" . esc_attr( $value ) . "' min='" . esc_attr( $field['min'] ) . "' max='" . esc_attr( $field['max'] ) . "'>";
+				echo "<input type='number' id='{$field['id']}' name='{$this->option_name}[{$field['id']}]' value='" . esc_attr( $value ) . "' min='" . esc_attr( $field['min'] ) . "' max='" . esc_attr( $field['max'] ) . "'>";
 				break;
-
+	
 			case 'select':
-				echo "<select name='{$this->option_name}[{$field['id']}]'>";
+				echo "<select id='{$field['id']}' name='{$this->option_name}[{$field['id']}]'>";
 				foreach ( $field['options'] as $key => $label ) {
 					echo "<option value='" . esc_attr( $key ) . "' " . selected( $value, $key, false ) . ">" . esc_html__( $label, 'aof' ) . "</option>";
 				}
 				echo "</select>";
 				break;
-
+	
 			case 'color':
-				echo "<input type='text' class='color-picker' name='{$this->option_name}[{$field['id']}]' value='" . esc_attr( $value ) . "' />";
+				echo "<input type='text' class='color-picker' id='{$field['id']}' name='{$this->option_name}[{$field['id']}]' value='" . esc_attr( $value ) . "' />";
 				break;
-
+	
 			case 'textarea':
-				echo "<textarea name='{$this->option_name}[{$field['id']}]' rows='5' class='large-text'>" . esc_textarea( $value ) . "</textarea>";
+				echo "<textarea id='{$field['id']}' name='{$this->option_name}[{$field['id']}]' rows='5' class='large-text'>" . esc_textarea( $value ) . "</textarea>";
 				break;
-
+	
 			case 'radio':
 				foreach ( $field['options'] as $key => $label ) {
-					echo "<label><input type='radio' name='{$this->option_name}[{$field['id']}]' value='" . esc_attr( $key ) . "' " . checked( $value, $key, false ) . "> " . esc_html__( $label, 'aof' ) . "</label><br>";
+					echo "<label class='aof-radio'><input type='radio' name='{$this->option_name}[{$field['id']}]' value='" . esc_attr( $key ) . "' " . checked( $value, $key, false ) . "> " . esc_html__( $label, 'aof' ) . "</label><br>";
 				}
 				break;
+	
 			case 'spacing':
 			case 'margin':
 			case 'padding':
 			case 'border':
-				$spacing_fields = isset( $field['options'] ) ? (array) $field['options'] : [ 'top', 'right', 'bottom', 'left' ];
-				$saved_spacing  = isset( $options[ $field['id'] ] ) ? (array) $options[ $field['id'] ] : (array) $field['default'];
-				$units = [ 'px', '%', 'em', 'rem', 'vh', 'vw', 'pt' ]; // allowed units
-			
-				echo "<div class='aof-spacing-wrapper' style='display:flex; gap:10px; align-items: flex-end;'>";
-			
-				foreach ( $spacing_fields as $side ) {
-					$side_value = isset( $saved_spacing[ $side ] ) ? esc_attr( $saved_spacing[ $side ] ) : '';
-					echo "<div style='flex:1;'>
-							<label style='display:block; font-weight:bold; font-size:12px; margin-bottom:4px;'>". ucfirst( $side ) ."</label>
-							<input type='text' name='{$this->option_name}[{$field['id']}][{$side}]' value='{$side_value}' class='small-text' />
-							</div>";
+				$sides = $field['options'] ?? [ 'top', 'right', 'bottom', 'left' ];
+				$saved = is_array( $value ) ? $value : [];
+				$unit  = $saved['unit'] ?? 'px';
+				$units = [ 'px', '%', 'em', 'rem', 'vh', 'vw', 'pt' ];
+	
+				echo "<div class='aof-spacing-wrapper'>";
+				foreach ( $sides as $side ) {
+					$v = isset( $saved[ $side ] ) ? esc_attr( $saved[ $side ] ) : '';
+					echo "<div class='aof-spacing-input'>
+						<label>" . ucfirst( $side ) . "</label>
+						<input type='text' name='{$this->option_name}[{$field['id']}][{$side}]' value='{$v}' />
+					</div>";
 				}
-			
-				// Unit dropdown
-				$current_unit = isset( $saved_spacing['unit'] ) ? esc_attr( $saved_spacing['unit'] ) : 'px';
-			
-				echo "<div style='flex:1;'>
-						<label style='display:block; font-weight:bold; font-size:12px; margin-bottom:4px;'>" . __( 'Unit', 'aof' ) . "</label>
+				echo "<div class='aof-spacing-unit'>
+						<label>" . __( 'Unit', 'aof' ) . "</label>
 						<select name='{$this->option_name}[{$field['id']}][unit]'>";
-				foreach ( $units as $unit ) {
-					echo "<option value='" . esc_attr( $unit ) . "' " . selected( $current_unit, $unit, false ) . ">" . esc_html( $unit ) . "</option>";
+				foreach ( $units as $u ) {
+					echo "<option value='{$u}' " . selected( $unit, $u, false ) . ">{$u}</option>";
 				}
-				echo "</select>
-						</div>";
-			
-				echo "</div>";
+				echo "</select></div></div>";
 				break;
-				
 		}
+	
+		echo "</div></div>"; // .aof-field-inner
 	}
+	
 
 	/**
 	 * Enqueue admin assets.
@@ -263,30 +276,45 @@ class Awesome_Options_Framework {
 		echo '<h1>' . esc_html( $this->page_title ) . '</h1>';
 		echo '<form method="post" action="options.php">';
 		echo '<div class="aof-form-inner-' . esc_attr( $this->tab_layout ) . '">';
-
+	
+		// Important for saving settings
 		settings_fields( $this->option_name );
-
+	
 		if ( ! empty( $this->sections ) ) {
-			// Tabs
+	
+			// Tabs (top or left)
 			echo '<div class="aof-tabs">';
 			foreach ( $this->sections as $key => $section ) {
 				echo '<div class="aof-tab" data-tab="tab_' . esc_attr( $key ) . '">' . esc_html__( $section['label'], 'aof' ) . '</div>';
 			}
 			echo '</div>';
-
+	
 			// Tab content
 			echo '<div class="aof-tab-content-area">';
 			foreach ( $this->sections as $key => $section ) {
 				echo '<div id="tab_' . esc_attr( $key ) . '" class="aof-tab-content">';
-				do_settings_sections( $this->option_name . '_' . $key );
+				if ( ! empty( $section['fields'] ) ) {
+					foreach ( $section['fields'] as $field ) {
+						echo '<div class="aof-field">';
+						$this->render_field( $field );
+						echo '</div>';
+					}
+				}
 				echo '</div>';
 			}
-			echo '</div>';
+			echo '</div>'; // end .aof-tab-content-area
+	
 		} else {
-			do_settings_sections( $this->option_name );
+			// Fallback: No sections, just flat fields
+			foreach ( $this->fields as $field ) {
+				echo '<div class="aof-field">';
+				$this->render_field( $field );
+				echo '</div>';
+			}
 		}
-		echo '</div>';
+	
+		echo '</div>'; // end .aof-form-inner
 		submit_button();
 		echo '</form></div></div>';
-	}
+	}	
 }

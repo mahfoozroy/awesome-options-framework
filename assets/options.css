@@ -76,7 +76,7 @@
   /* Tab content area */
   #aof-app .aof-tab-content-area {
     width: 100%;
-    max-width: 600px;
+    max-width: 684px;
   }
   #aof-app .aof-form-inner-vertical {
     display: flex;
@@ -136,3 +136,94 @@
     margin-top: 0;
     padding-top: 40px;
   }
+  /* Layout */
+.aof-wrap {
+	max-width: 960px;
+	padding: 30px;
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0,0,0,0.06);
+}
+
+.aof-inner-wrap h1 {
+	font-size: 24px;
+	margin-bottom: 20px;
+}
+
+/* Tabs */
+
+.aof-tab {
+	padding: 12px 16px;
+	cursor: pointer;
+	border-bottom: 1px solid #f1f1f1;
+	background: #fafafa;
+	transition: all 0.2s ease;
+}
+
+.aof-tab:hover,
+.aof-tab.active {
+	background: #f0f0f0;
+	font-weight: bold;
+}
+
+.aof-form-inner-vertical {
+	display: flex;
+}
+
+.aof-tab-content-area {
+	flex: 1;
+	padding: 20px;
+}
+
+/* Field blocks */
+.aof-field {
+	margin-bottom: 24px;
+  display: flex;
+  flex-direction: row;
+}
+
+.aof-label {
+	display: block;
+	font-weight: 600;
+	margin-bottom: 6px;
+}
+
+.aof-description {
+	margin-top: 6px;
+	font-size: 13px;
+	color: #666;
+}
+
+.aof-spacing-wrapper {
+	display: flex;
+	gap: 10px;
+	align-items: flex-end;
+	flex-wrap: wrap;
+}
+.aof-spacing-input {
+	flex: 1;
+	min-width: 70px;
+}
+.aof-spacing-unit {
+	min-width: 80px;
+}
+.aof-spacing-unit select {
+	width: 100%;
+}
+
+.aof-radio {
+	display: inline-block;
+	margin-right: 10px;
+}
+.aof-field-inner, .aof-field-type{
+  width: 70%
+}
+.aof-field-label {
+  width: 30%;
+}
+.aof-field-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
