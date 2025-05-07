@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Awesome Options Framework
  * Description: A dynamic and extendable options framework for WordPress admin settings.
- * Version: 1.1.0
+ * Version: 1.0
  * Author: Roy Mahfooz
  * Author URI: https://roymahfooz.com
  * Text Domain: aof

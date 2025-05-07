@@ -6,6 +6,9 @@
  *
  * @package Awesome_Options_Framework
  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( 'AOF_Helper' ) ) {
 	class AOF_Helper {

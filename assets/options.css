@@ -104,13 +104,17 @@
   .aof-wrap input[type="url"],
   .aof-wrap select,
   .aof-wrap textarea {
-    width: 100%;
+    width: 20rem;
     padding: 4px;
     margin-top: 4px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    height: 40px;
   }
   
+  .aof-wrap .aof-spacing-input input{
+    width: 5rem;
+  }
   .aof-wrap input[type="submit"] {
     background: #0073aa;
     color: #fff;
@@ -138,7 +142,6 @@
   }
   /* Layout */
 .aof-wrap {
-	max-width: 960px;
 	padding: 30px;
 	background: #fff;
 	border-radius: 8px;
@@ -190,7 +193,7 @@
 
 .aof-description {
 	margin-top: 6px;
-	font-size: 13px;
+	font-size: 12px;
 	color: #666;
 }
 
@@ -220,6 +223,7 @@
 }
 .aof-field-label {
   width: 30%;
+  font-size: 15px;
 }
 .aof-field-wrap {
   width: 100%;
