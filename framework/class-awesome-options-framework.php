@@ -170,7 +170,8 @@ if ( ! class_exists( 'Awesome_Options_Framework' ) ) {
 		 */
 		public function render_field( $field ) {
 			$options = get_option( $this->option_name );
-			$value   = $options[ $field['id'] ] ?? $field['default'];
+			$default = $field['default'] ?? '';
+			$value   = $options[ $field['id'] ] ?? $default;
 			$type    = $field['type'] ?? 'text';
 			$label   = $field['label'] ?? '';
 			$desc    = $field['description'] ?? '';
