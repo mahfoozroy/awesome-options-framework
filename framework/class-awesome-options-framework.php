@@ -26,7 +26,7 @@ if ( ! class_exists( 'Awesome_Options_Framework' ) ) {
 		 */
 		public function __construct( $args ) {
 			$this->option_name = $args['option_name'] ?? 'awesome_options_framework_settings';
-			$this->page_title  = $args['page_title'] ?? __( 'Awesome Options Framework', 'aof' );
+			$this->page_title  = $args['page_title'] ?? __( 'Awesome Options Framework', 'cc-styles-woo' );
 			$this->menu_slug   = $args['menu_slug'] ?? 'awesome-options-framework';
 			$this->menu_icon   = $args['menu_icon'] ?? 'dashicons-admin-generic';
 			$this->fields      = $args['fields'] ?? [];
@@ -43,7 +43,7 @@ if ( ! class_exists( 'Awesome_Options_Framework' ) ) {
 		 * Load plugin textdomain.
 		 */
 		public function load_textdomain() {
-			load_plugin_textdomain( 'aof', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+			load_plugin_textdomain( 'cc-styles-woo', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 		}
 
 		/**
@@ -71,7 +71,7 @@ if ( ! class_exists( 'Awesome_Options_Framework' ) ) {
 				foreach ( $this->sections as $key => $section ) {
 					add_settings_section(
 						$key,
-						esc_html__( $section['label'], 'aof' ),
+						$section['label'],
 						null,
 						$this->option_name . '_' . $key
 					);
@@ -92,7 +92,7 @@ if ( ! class_exists( 'Awesome_Options_Framework' ) ) {
 				foreach ( $this->fields as $field ) {
 					add_settings_field(
 						esc_attr( $field['id'] ),
-						esc_html__( $field['label'], 'aof' ),
+						$field['label'],
 						[ $this, 'render_field' ],
 						$this->option_name,
 						'awesome_options',
@@ -176,56 +176,98 @@ if ( ! class_exists( 'Awesome_Options_Framework' ) ) {
 			$label   = $field['label'] ?? '';
 			$desc    = $field['description'] ?? '';
 		
-			echo "<div class='aof-field-wrap aof-type-{$type}'>";
+			echo '<div class="aof-field-wrap aof-type-' . esc_attr( $type ) . '">';
 		
 			// Label
 			echo '<div class="aof-field-label">';
 			if ( $label ) {
-				echo "<label for='{$field['id']}' class='aof-label'>" . esc_html__( $label, 'aof' ) . "</label>";
+				echo '<label for="' . esc_attr( $field['id'] ) . '" class="aof-label">' . esc_html( $label ) . '</label>';
 			}
 			// Description
 			if ( $desc ) {
-				echo '<p class="aof-description">' . esc_html__( $desc, 'aof' ) . '</p>';
+				echo '<p class="aof-description">' . esc_html( $desc ) . '</p>';
 			}
 			echo '</div>';
 			echo '<div class="aof-field-inner">';
-			// Input switch
 			switch ( $type ) {
 				case 'text':
 				case 'email':
-					echo "<input type='{$type}' id='{$field['id']}' name='{$this->option_name}[{$field['id']}]' value='" . esc_attr( $value ) . "' class='regular-text'>";
+					printf(
+						'<input type="%1$s" id="%2$s" name="%3$s" value="%4$s" class="regular-text">',
+						esc_attr( $type ),
+						esc_attr( $field['id'] ),
+						esc_attr( $this->option_name . '[' . $field['id'] . ']' ),
+						esc_attr( $value )
+					);
 					break;
-		
+			
 				case 'checkbox':
-					echo "<input type='checkbox' id='{$field['id']}' name='{$this->option_name}[{$field['id']}]' value='1' " . checked( $value, 1, false ) . ">";
+					printf(
+						'<input type="checkbox" id="%1$s" name="%2$s" value="1" %3$s>',
+						esc_attr( $field['id'] ),
+						esc_attr( $this->option_name . '[' . $field['id'] . ']' ),
+						checked( $value, 1, false )
+					);
 					break;
-		
+			
 				case 'number':
-					echo "<input type='number' id='{$field['id']}' name='{$this->option_name}[{$field['id']}]' value='" . esc_attr( $value ) . "' min='" . esc_attr( $field['min'] ) . "' max='" . esc_attr( $field['max'] ) . "'>";
+					printf(
+						'<input type="number" id="%1$s" name="%2$s" value="%3$s" min="%4$s" max="%5$s">',
+						esc_attr( $field['id'] ),
+						esc_attr( $this->option_name . '[' . $field['id'] . ']' ),
+						esc_attr( $value ),
+						esc_attr( $field['min'] ),
+						esc_attr( $field['max'] )
+					);
 					break;
-		
+			
 				case 'select':
-					echo "<select id='{$field['id']}' name='{$this->option_name}[{$field['id']}]'>";
+					printf(
+						'<select id="%1$s" name="%2$s">',
+						esc_attr( $field['id'] ),
+						esc_attr( $this->option_name . '[' . $field['id'] . ']' )
+					);
 					foreach ( $field['options'] as $key => $label ) {
-						echo "<option value='" . esc_attr( $key ) . "' " . selected( $value, $key, false ) . ">" . esc_html__( $label, 'aof' ) . "</option>";
+						printf(
+							'<option value="%1$s" %2$s>%3$s</option>',
+							esc_attr( $key ),
+							selected( $value, $key, false ),
+							esc_html( $label )
+						);
 					}
-					echo "</select>";
+					echo '</select>';
 					break;
-		
+			
 				case 'color':
-					echo "<input type='text' class='color-picker' id='{$field['id']}' name='{$this->option_name}[{$field['id']}]' value='" . esc_attr( $value ) . "' />";
+					printf(
+						'<input type="text" class="color-picker" id="%1$s" name="%2$s" value="%3$s" />',
+						esc_attr( $field['id'] ),
+						esc_attr( $this->option_name . '[' . $field['id'] . ']' ),
+						esc_attr( $value )
+					);
 					break;
-		
+			
 				case 'textarea':
-					echo "<textarea id='{$field['id']}' name='{$this->option_name}[{$field['id']}]' rows='5' class='large-text'>" . esc_textarea( $value ) . "</textarea>";
+					printf(
+						'<textarea id="%1$s" name="%2$s" rows="5" class="large-text">%3$s</textarea>',
+						esc_attr( $field['id'] ),
+						esc_attr( $this->option_name . '[' . $field['id'] . ']' ),
+						esc_textarea( $value )
+					);
 					break;
-		
+			
 				case 'radio':
 					foreach ( $field['options'] as $key => $label ) {
-						echo "<label class='aof-radio'><input type='radio' name='{$this->option_name}[{$field['id']}]' value='" . esc_attr( $key ) . "' " . checked( $value, $key, false ) . "> " . esc_html__( $label, 'aof' ) . "</label><br>";
+						printf(
+							'<label class="aof-radio"><input type="radio" name="%1$s" value="%2$s" %3$s> %4$s</label><br>',
+							esc_attr( $this->option_name . '[' . $field['id'] . ']' ),
+							esc_attr( $key ),
+							checked( $value, $key, false ),
+							esc_html( $label )
+						);
 					}
 					break;
-		
+			
 				case 'spacing':
 				case 'margin':
 				case 'padding':
@@ -234,24 +276,33 @@ if ( ! class_exists( 'Awesome_Options_Framework' ) ) {
 					$saved = is_array( $value ) ? $value : [];
 					$unit  = $saved['unit'] ?? 'px';
 					$units = [ 'px', '%', 'em', 'rem', 'vh', 'vw', 'pt' ];
-		
-					echo "<div class='aof-spacing-wrapper'>";
+			
+					echo '<div class="aof-spacing-wrapper">';
 					foreach ( $sides as $side ) {
 						$v = isset( $saved[ $side ] ) ? esc_attr( $saved[ $side ] ) : '';
-						echo "<div class='aof-spacing-input'>
-							<label>" . ucfirst( $side ) . "</label>
-							<input type='text' name='{$this->option_name}[{$field['id']}][{$side}]' value='{$v}' />
-						</div>";
+						printf(
+							'<div class="aof-spacing-input"><label>%1$s</label><input type="text" name="%2$s" value="%3$s" /></div>',
+							esc_html( ucfirst( $side ) ),
+							esc_attr( $this->option_name . '[' . $field['id'] . "][$side]" ),
+							esc_attr( $v )
+						);
 					}
-					echo "<div class='aof-spacing-unit'>
-							<label>" . __( 'Unit', 'aof' ) . "</label>
-							<select name='{$this->option_name}[{$field['id']}][unit]'>";
+			
+					echo '<div class="aof-spacing-unit"><label>' . esc_html__( 'Unit', 'cc-styles-woo' ) . '</label>';
+					printf(
+						'<select name="%s">',
+						esc_attr( $this->option_name . '[' . $field['id'] . '][unit]' )
+					);
 					foreach ( $units as $u ) {
-						echo "<option value='{$u}' " . selected( $unit, $u, false ) . ">{$u}</option>";
+						printf(
+							'<option value="%1$s" %2$s>%1$s</option>',
+							esc_attr( $u ),
+							selected( $unit, $u, false )
+						);
 					}
-					echo "</select></div></div>";
+					echo '</select></div></div>';
 					break;
-			}
+			}			
 		
 			echo "</div></div>"; // .aof-field-inner
 		}
@@ -268,8 +319,8 @@ if ( ! class_exists( 'Awesome_Options_Framework' ) ) {
 			}
 
 			wp_enqueue_style( 'wp-color-picker' );
-			wp_enqueue_script( 'aof-js', AOF_URL . 'assets/options.js', [ 'wp-color-picker', 'jquery' ], null, true );
-			wp_enqueue_style( 'aof-css', AOF_URL . 'assets/options.css' );
+			wp_enqueue_script( 'aof-js', AOF_URL . 'assets/options.js', [ 'wp-color-picker', 'jquery' ], AOF_VERSION, false );
+			wp_enqueue_style( 'aof-css', AOF_URL . 'assets/options.css', '', AOF_VERSION, false );
 		}
 
 		/**
@@ -290,7 +341,7 @@ if ( ! class_exists( 'Awesome_Options_Framework' ) ) {
 				// Tabs (top or left)
 				echo '<div class="aof-tabs">';
 				foreach ( $this->sections as $key => $section ) {
-					echo '<div class="aof-tab" data-tab="tab_' . esc_attr( $key ) . '">' . esc_html__( $section['label'], 'aof' ) . '</div>';
+					echo '<div class="aof-tab" data-tab="tab_' . esc_attr( $key ) . '">' . esc_attr( $section['label'] ) . '</div>';
 				}
 				echo '</div>';
 		
